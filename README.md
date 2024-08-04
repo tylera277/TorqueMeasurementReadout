@@ -8,3 +8,5 @@ Buttons:
   - B - display current sum of readings stored so far
   - X - Delete one, currently selected reading
   - Y - Delete all stored readings
+  - UP arrow - If possible, move to previously stored reading
+  - Down arrow - If possible, move to more recent stored reading
