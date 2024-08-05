@@ -24,6 +24,7 @@ class Utilities:
 		
 		return average
 		
+		
 	def rounded_sum_of_list_of_strings(self, decimal_places, list_of_strings):
 		total_sum = 0
 		try:

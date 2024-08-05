@@ -34,11 +34,8 @@ class Menu:
 		
 		# Delete *one* value from the current torque reading list
 		elif button_name == "x":
-			print("x pushed")
 			if len(torque_reading_list) != 0:
-				
 				del torque_reading_list[self.indicator_index]
-				print("deleted!")
 				self.indicator_index -= 1
 			
 		

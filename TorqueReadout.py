@@ -5,20 +5,30 @@ import threading
 import queue
 import time
 
+
 from Display import Display
 from Controller import Controller
 from Menu import Menu
 from Torque import Torque
 
-
 GPIO.setmode(GPIO.BOARD)
 
 display = Display(0x27)
-controller = Controller()
 menu = Menu(display)
 torque = Torque()
+controller = Controller()
+
+controller_address = controller.find_address_of_controller(display, "/dev/input/")
 
 
+controller.set_device_address(controller_address)
+
+
+display.clear_display()
+
+display.update_display(f'Insert torque:', \
+						position_horizontal = 0,
+						position_vertical = 2)
 
 # -These queues will house their respective quantities after 
 # their independent threads dump the info into them during execution
@@ -48,7 +58,6 @@ try:
 		if torque_reading_queue.qsize() != 0:
 			torque_readings.append(torque_reading_queue.get())
 			menu.increment_current_position_index()
-			print("torque readings:", torque_readings)
 			
 		if len(torque_readings) != 0:
 			if controller_command_queue.qsize() != 0:

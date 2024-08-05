@@ -1,6 +1,7 @@
 from evdev import InputDevice, categorize, ecodes
 
 import time
+import os
 
 
 class Controller:
@@ -9,8 +10,8 @@ class Controller:
 	
 	"""
 	
-	def __init__(self):
-		self.gamepad = InputDevice("/dev/input/event4")
+	def __init__(self, device_address=None):
+		self.gamepad = None#InputDevice(device_address)
 		
 		self.left = 18
 		self.right = 33
@@ -20,6 +21,40 @@ class Controller:
 		self.b = 36
 		self.y = 23
 		self.x = 35
+	
+	def find_address_of_controller(self, display, check_this_place):
+			# Check before controller is connected to Pi
+		pre_connected_devices = os.listdir(check_this_place)
+		print(pre_connected_devices)
+
+		for time_increment in range(10,0,-1):
+			display.update_display(f'Connect control!', \
+								position_horizontal = 0,
+								position_vertical = 1)
+			display.update_display(f'{time_increment} seconds left...', \
+								position_horizontal = 0,
+								position_vertical = 2)
+			time.sleep(1)
+
+		post_connected_devices = os.listdir(check_this_place)
+		print(post_connected_devices)
+		display.clear_display()
+
+		for device in post_connected_devices:
+			if device not in pre_connected_devices:
+				display.update_display(f'Found it {device}', \
+									position_horizontal = 0,
+									position_vertical = 2)
+				time.sleep(3)
+				break
+
+		#print(check_this_place + device)
+		return check_this_place + device
+	
+	
+	def set_device_address(self, address):
+		self.gamepad = InputDevice(address)
+		
 		
 	def read_button_input(self, queue):
 		
