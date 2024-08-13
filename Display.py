@@ -21,6 +21,10 @@ class Display:
 		
 	def update_display(self, string, position_horizontal, position_vertical):
 		self.mylcd.lcd_display_string(f'{string}', position_vertical, position_horizontal)
+	
+	def clear_display_line(self, line_number):
+		blank_line = " " * 20
+		self.mylcd.lcd_display_string(blank_line, line_number)
 		
 	def clear_display(self):
 		self.mylcd.lcd_clear()
